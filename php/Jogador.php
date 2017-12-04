@@ -45,14 +45,19 @@
 // -------------------- ADICIONAR -------------------- 
 		
 		public function Adicionar(){
+			//echo "INSERT INTO jogador (nome, apelido, matricula, id_time) values ('{$this->nome}', '{$this->apelido}', '{$this->matricula}', '{$this->time}');";
 			$pg = Connection::DBConnect();
 			try{
-				
-				$pg->query("INSERT INTO jogador (nome, apelido, matricula, id_time) values ('{$this->nome}', '{$this->apelido}', '{$this->matricula}', '{$this->time}');");
-				//CODIGO PARA DEBUGAR A QUERY
-				/*if ($mysql->error) {
-					die($mysql->error);
-				}*/
+				$resultado = pg_query($pg, "INSERT INTO jogador (nome, apelido, matricula, id_time) values ('{$this->nome}', '{$this->apelido}', '{$this->matricula}', {$this->time});");
+				if($resultado == true){
+					header('Location: http://localhost:8888/bd3/listarJogadores.php?situacao=1');
+				}else{
+					header('Location: http://localhost:8888/bd3/log.php?situacao=0&tipo=jogador');
+				}
+					//CODIGO PARA DEBUGAR A QUERY
+					/*if ($mysql->error) {
+						mysql->error);
+					}*/
 			}catch(Exception $e){
 				echo 'Erro' . $e->getMessage();
 			}
@@ -64,7 +69,10 @@
 			$pg = Connection::DBConnect();
 			$dados = [];
 			try{
-				$times = $pg->query("SELECT * from jogador");
+				$times = pg_query($pg, "SELECT j.id_jogador, j.nome, j.apelido, j.matricula, t.nome as timenome
+										from jogador j
+										inner join tabletime t on t.id_time = j.id_time
+										order by j.id_jogador");
 				while($row = pg_fetch_assoc($times)){
 					$dados[] = $row;
 				}
@@ -80,7 +88,7 @@
 			$pg = Connection::DBConnect();
 			try{
 				
-				$pg->query("UPDATE time SET (nome, apelido, matricula, id_time) values ('{$this->nome}', '{$this->apelido}', '{$this->matricula}', '{$this->time}') WHERE id_jogador = {$this->id};");
+				$pg->query("UPDATE jogador SET (nome, apelido, matricula, id_time) values ('{$this->nome}', '{$this->apelido}', '{$this->matricula}', '{$this->time}') WHERE id_jogador = {$this->id};");
 			}catch(Exception $e){
 				echo 'Erro' . $e->getMessage();
 			}
@@ -89,7 +97,7 @@
 
 // -------------------- EXCLUIR -------------------- 
 
-		public function Excluir($id){
+		static public function Excluir($id){
 			$pg = Connection::DBConnect();
 			try{
 				
@@ -99,22 +107,23 @@
 			}
 		}
 
-// -------------------- LISTAR CONDÔMINOS -------------------- 
-	
-	// public static function ListarCondominos(){
-	// 	$mysql = Connection::DBConnect();
-	// 	$dados = [];
-	// 	try{
-	// 		$condominios = $mysql->query("SELECT p.id_pessoa, p.nome, c.id_condominio FROM pessoa p
-	// 									inner join condominio c on c.id_condominio = p.id_condominio;");
-	// 		while($row = mysqli_fetch_assoc($condominios)){
-	// 			$dados[] = $row;
-	// 		}
-	// 	}catch(Exception $e){
-	// 		echo 'Erro' . $e->getMessage();
-	// 	}
-	// 	return $dados;			
-	// 	}	
+// ----------------- MOSTRAR LOGS ----------------
+
+		public function ListarLogs(){
+			$pg = Connection::DBConnect();
+			$dados = [];
+			try{
+				$logs = pg_query($pg, "SELECT * from log order by 1 desc");
+				while($row = pg_fetch_assoc($logs)){
+					$dados[] = $row;
+				}
+			}catch(Exception $e){
+				echo 'Erro' . $e->getMessage();
+			}
+			return $dados;
+		}
+
+
 
 
 

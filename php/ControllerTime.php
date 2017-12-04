@@ -4,7 +4,12 @@
 	
 	$time = new Time();
 
-	$action = $_POST['action'];
+	if(!isset($_POST['action'])){
+		$action = $_GET['action'];
+	}
+	else {
+		$action = $_POST['action'];
+	}
 
 
 	$time->setNome($_POST['nome']);
@@ -13,7 +18,6 @@
 	$time->setEstado($_POST['estado']);
 	$time->setCidade($_POST['cidade']);
 
-	echo $this->cidade;
 
 	switch($action){
 		case 'add':

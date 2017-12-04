@@ -1,6 +1,27 @@
+<?php 
+  include('php/Jogador.php');
+  $conn = new Jogador;
+
+  // $tableInfo = Connection::Listar();
+  $tableInfo = $conn->Listar();
+
+  if(isset($_GET['situacao'])){
+    if($_GET['situacao'] == 1){
+    echo "<center><h2 style='width: 100%; background-color: green; color: white;'>Jogador cadastrado com Sucesso!</h2></center>";
+    }
+  }
+
+
+
+
+  
+
+ ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
-
+  <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
   <head>
 
     <meta charset="utf-8">
@@ -8,7 +29,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Banco de Dados III</title>
+    <title>FutControl</title>
 
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -24,7 +45,7 @@
 
   <body>
 
-    <div class="tagline-upper text-center text-heading text-shadow text-white mt-5 d-none d-lg-block">Banco de Dados III</div>
+    <div class="tagline-upper text-center text-heading text-shadow text-white mt-5 d-none d-lg-block">FutControl</div>
     <div class="tagline-lower text-center text-expanded text-shadow text-uppercase text-white mb-5 d-none d-lg-block">Sistemas de Informação - UNIFRA</div>
 
     <!-- Navigation -->
@@ -34,7 +55,7 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
+        <div class="collapse navbar-collapse" id="">
           <ul class="navbar-nav mx-auto">
             <li class="nav-item active px-lg-4">
               <a class="nav-link text-uppercase text-expanded" href="index.html">Home
@@ -53,6 +74,9 @@
             <li class="nav-item px-lg-4">
               <a class="nav-link text-uppercase text-expanded" href="listarJogadores.php">Listar Jogadores</a>
             </li>
+            <li class="nav-item px-lg-4">
+              <a class="nav-link text-uppercase text-expanded" href="log.php">Listar Logs</a>
+            </li>
           </ul>
         </div>
       </div>
@@ -62,12 +86,13 @@
       <div class="bg-faded p-4 my-4">
         <div class="box-body table-responsive no-padding">
           <table class="table table-hover">
-            <tbody><tr>
+          <tbody><tr>
               <th>Código</th>
               <th>Nome</th>
               <th>Apelido</th>
               <th>Matricula</th>
               <th>Time</th>
+              <th>Ação</th>
             </tr>
             <?php foreach ($tableInfo as $key => $value): ?>
                 <tr>
@@ -75,7 +100,8 @@
                   <td><?php echo $value['nome'] ?></td>
                   <td><?php echo $value['apelido'] ?></td>
                   <td><?php echo $value['matricula'] ?></td>
-                  <td><?php echo $value['time'] ?></td>
+                  <td><?php echo $value['timenome'] ?></td>
+                  <td><button type="submit" onclick="excluir()">Excluir</button></td>
                 </tr>
             <?php endforeach; ?>
           </tbody></table>
@@ -96,4 +122,14 @@
 
   </body>
 
+<script>
+  $( document ).ready(excluir() {
+    <?php 
+      Jogador::Excluir($value['id_jogador']);
+     ?>
+     echo "<center><h2 style='width: 100%; background-color: green; color: white;'>Jogador de ID".$value['id_jogador']." Excluído com Sucesso!</h2></center>"
+
+  }
+</script>
+  
 </html>

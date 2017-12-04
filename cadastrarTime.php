@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Banco de Dados III</title>
+    <title>FutControl</title>
 
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -24,7 +24,7 @@
 
   <body>
 
-    <div class="tagline-upper text-center text-heading text-shadow text-white mt-5 d-none d-lg-block">Banco de Dados III</div>
+    <div class="tagline-upper text-center text-heading text-shadow text-white mt-5 d-none d-lg-block">FutControl</div>
     <div class="tagline-lower text-center text-expanded text-shadow text-uppercase text-white mb-5 d-none d-lg-block">Sistemas de Informação - UNIFRA</div>
 
     <!-- Navigation -->
@@ -52,6 +52,9 @@
             </li>
             <li class="nav-item px-lg-4">
               <a class="nav-link text-uppercase text-expanded" href="listarJogadores.php">Listar Jogadores</a>
+            </li>
+            <li class="nav-item px-lg-4">
+              <a class="nav-link text-uppercase text-expanded" href="log.php">Listar Logs</a>
             </li>
           </ul>
         </div>

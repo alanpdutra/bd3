@@ -1,7 +1,20 @@
 <?php 
-    @require_once('php/Time.php');
-    $jog = new Time;
-    $tableInfo = $jog->listarTimes();
+  include('php/Jogador.php');
+  $conn = new Jogador;
+
+  // $tableInfo = Connection::Listar();
+  $tableInfo = $conn->ListarLogs();
+
+
+    if(isset($_GET['situacao'])){
+      if($_GET['situacao'] == 0 && $_GET['tipo'] == "jogador"){
+        echo "<center><h2 style='width: 100%; background-color: red; color: white;'>Jogador não foi cadastrado!</h2></center>";
+      }else if($_GET['situacao'] == 0 && $_GET['tipo'] == "time"){
+        echo "<center><h2 style='width: 100%; background-color: red; color: white;'>Time não foi cadastrado!</h2></center>";
+      }
+    }
+  
+
  ?>
 
 
@@ -41,7 +54,7 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
+        <div class="collapse navbar-collapse" id="">
           <ul class="navbar-nav mx-auto">
             <li class="nav-item active px-lg-4">
               <a class="nav-link text-uppercase text-expanded" href="index.html">Home
@@ -70,48 +83,26 @@
 
     <div class="container">
       <div class="bg-faded p-4 my-4">
-        <h1 class="text-center">Cadastro de Jogadores</h1>
-        <form action="php/ControllerJogador.php/" method="post">
-          <input type="hidden" name="action" value="add"/>
-          <div class="form-group col-md-2 col-xs-12 col-sm-12">
-              <label for="id">Código</label>
-              <input readonly="true" type="text" class="form-control" id="id" name="id" placeholder="Código">
+        <div class="box-body table-responsive no-padding">
+          <table class="table table-hover"> 
+            <tbody><tr>
+              <th>Código</th>
+              <th>Descrição</th>
+              <th>Data</th>
+              <th>Hora</th>
+            </tr>
+              <?php foreach ($tableInfo as $key => $value): ?>
+                <tr>
+                  <td><?php echo $value['id_log'] ?></td>
+                  <td><?php echo $value['descricao'] ?></td>
+                  <td><?php echo $value['data'] ?></td>
+                  <td><?php echo $value['hora'] ?></td>
+                </tr>
+              <?php endforeach; ?>
+            </tbody></table>
           </div>
-          <div class="form-group col-md-12 col-xs-12 col-sm-12">
-              <label for="nome">Nome</label>
-              <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite o Nome do Jogador">
-          </div>
-          <div class="form-group col-md-12 col-xs-12 col-sm-12">
-              <label for="apelido">Apelido</label>
-              <input type="text" class="form-control" id="apelido" name="apelido" placeholder="Digite o apelido do Jogador">
-          </div>
-          <div class="form-group col-md-12 col-xs-12 col-sm-12">
-              <label for="matricula">Matricula</label>
-              <input type="text" class="form-control" id="matricula" name="matricula" placeholder="Digite a Matricula do Jogador">
-          </div>
-          <div class="form-group col-md-8 col-xs-12 col-sm-12">
-              <label for="time">Time</label>
-              <select name="time" class="form-control select2 select2-hidden-accessible" style="width: 100%;">
-                  <option value="0">Selecione...</option>
-                  <?php foreach ($tableInfo as $info) {?>
-                      <option value="<?php echo $info['id_time']?>"><?php echo $info['nome']?></option>
-                  <?php }?>
-              </select>
-          </div>
-          <div class="text-right espacoTopo">
-              <button type="submit" name="enviaForm" class="btn btn-primary">Confirmar</button>
-              <button class="btn btn-danger">Cancelar</button>
-          </div>
-          </div>
-      </form>
-
-
-
-
-
-
+        </div>
       </div>
-    </div>
     <!-- /.container -->
 
     <footer class="bg-faded text-center py-5">
